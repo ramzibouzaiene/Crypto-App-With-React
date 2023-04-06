@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import millify from "millify";
 import { Link } from "react-router-dom";
 import { Card, Row, Col, Input } from "antd";
-import { useGetCryptosQuery } from "../servers/cryptoApi";
+import { useGetCryptosQuery } from "../services/cryptoApi";
+import Loader from "./Loader";
 
 const Cryptocurrencies = ({ simplified }) => {
   const count = simplified ? 10 : 100;
@@ -17,7 +18,7 @@ const Cryptocurrencies = ({ simplified }) => {
     setCryptos(filteredData);
   }, [cryptoList, searchTerm]);
 
-  if (isFetching) return "Loading...";
+  if (isFetching) return <Loader />;
   return (
     <>
       {!simplified && (

@@ -17,22 +17,20 @@ import {
 import {
   useGetCryptoDetailsQuery,
   useGetCryptoHistoryQuery,
-} from "../servers/cryptoApi";
+} from "../services/cryptoApi";
 import LineChart from "./LineChart";
+import Loader from "./Loader";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
 
 const CryptoDetails = () => {
-  const { uudi } = useParams();
+  const { uuid } = useParams();
   const [timePeriod, setTimePeriod] = useState("7d");
-  const { data, isFetching } = useGetCryptoDetailsQuery(uudi);
-  const { data: coinHistory } = useGetCryptoHistoryQuery({
-    uudi,
-    timePeriod,
-  });
+  const { data, isFetching } = useGetCryptoDetailsQuery(uuid);
+  const { data: coinHistory } = useGetCryptoHistoryQuery({ uuid, timePeriod });
   const cryptoDetails = data?.data?.coin;
-  if (isFetching) return "Loading ...";
+  if (isFetching) return <Loader />;
 
   const time = ["3h", "24h", "7d", "30d", "1y", "3m", "3y", "5y"];
 
